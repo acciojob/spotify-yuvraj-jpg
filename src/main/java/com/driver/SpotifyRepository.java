@@ -208,41 +208,43 @@ public class SpotifyRepository {
         //If the playlist does not exists, throw "Playlist does not exist" exception
         // Return the playlist after updating
         User user = null;
-        for(User x : users){
-            if(x.getMobile().equals(mobile)){
-                user = x;
+        for(User user1:users){
+            if(user1.getMobile()==mobile){
+                user=user1;
                 break;
             }
         }
-        if(user==null){
+        if(user==null)
             throw new Exception("User does not exist");
-        }
-        Playlist playlist = null;
-        for (Playlist x : playlists) {
-            if (x.getTitle().equals(playlistTitle)){
-                playlist = x;
-                break;
-        }
-        }
-        if(playlist==null){
-            throw new Exception("Playlist does not exist");
-        }
-        if(creatorPlaylistMap.containsKey(user)){
-            return playlist;
-        }
-        List<User> list = playlistListenerMap.get(playlist);
-        for(User x:users){
-            if(x==user) return playlist;
-        }
-        list.add(user);
-        playlistListenerMap.put(playlist,list);
 
-        List<Playlist> plist = userPlaylistMap.get(user);
-        if(plist == null){
-            plist = new ArrayList<>();
+        Playlist playlist = null;
+        for(Playlist playlist1:playlists){
+            if(playlist1.getTitle()==playlistTitle){
+                playlist=playlist1;
+                break;
+            }
         }
-        plist.add(playlist);
-        userPlaylistMap.put(user,plist);
+        if(playlist==null)
+            throw new Exception("Playlist does not exist");
+
+        if(creatorPlaylistMap.containsKey(user))
+            return playlist;
+
+        List<User> listener = playlistListenerMap.get(playlist);
+        for(User user1:listener){
+            if(user1==user)
+                return playlist;
+        }
+
+        listener.add(user);
+        playlistListenerMap.put(playlist,listener);
+
+        List<Playlist> playlists1 = userPlaylistMap.get(user);
+        if(playlists1 == null){
+            playlists1 = new ArrayList<>();
+        }
+        playlists1.add(playlist);
+        userPlaylistMap.put(user,playlists1);
 
         return playlist;
 
