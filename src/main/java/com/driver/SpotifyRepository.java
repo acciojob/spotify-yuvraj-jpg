@@ -60,7 +60,7 @@ public class SpotifyRepository {
             }
         }
         if(artist ==null){
-            artist = new Artist(artistName);
+            artist = createArtist(artistName);
             Album album = new Album(title);
             albums.add(album);
             List<Album> list = new ArrayList<>();
@@ -271,7 +271,9 @@ public class SpotifyRepository {
         }
         if(songLikeMap.containsKey(song)) {
             List<User> list = songLikeMap.get(song);
-            if (list.contains(user)) return song;
+            if(list.contains(user)){
+                return song;
+            }
             else {
                 int like = song.getLikes() + 1;
                 song.setLikes(like);
@@ -280,7 +282,7 @@ public class SpotifyRepository {
 
                 Album album = null;
                 for (Album x : albumSongMap.keySet()) {
-                    List<Song> list1 = albumSongMap.get(album);
+                    List<Song> list1 = albumSongMap.get(x);
                     if (list1.contains(song)) {
                         album = x;
                         break;
@@ -288,7 +290,7 @@ public class SpotifyRepository {
                 }
                 Artist artist = null;
                 for (Artist x : artistAlbumMap.keySet()) {
-                    List<Album> list2 = artistAlbumMap.get(artist);
+                    List<Album> list2 = artistAlbumMap.get(x);
                     if (list2.contains(album)) {
                         artist = x;
                         break;
@@ -297,6 +299,7 @@ public class SpotifyRepository {
                 int likes = artist.getLikes() + 1;
                 artist.setLikes(likes);
                 artists.add(artist);
+
                 return song;
             }
         }
@@ -309,7 +312,7 @@ public class SpotifyRepository {
 
                 Album album = null;
                 for(Album x : albumSongMap.keySet()){
-                    List<Song> list1 = albumSongMap.get(album);
+                    List<Song> list1 = albumSongMap.get(x);
                     if(list1.contains(song)){
                         album = x;
                         break;
@@ -317,7 +320,7 @@ public class SpotifyRepository {
                 }
                 Artist artist = null;
                 for(Artist x:artistAlbumMap.keySet()){
-                    List<Album> list2 = artistAlbumMap.get(artist);
+                    List<Album> list2 = artistAlbumMap.get(x);
                     if(list2.contains(album)){
                         artist = x;
                         break;
@@ -338,7 +341,7 @@ public class SpotifyRepository {
         for(Artist x : artists){
             if(x.getLikes()>=max){
                 artist=x;
-                max = artist.getLikes();
+                max = x.getLikes();
             }
         }
         if(artist==null){
@@ -356,7 +359,7 @@ public class SpotifyRepository {
         for(Song x : songLikeMap.keySet()){
             if(x.getLikes()>=max){
                 song=x;
-                max = song.getLikes();
+                max = x.getLikes();
             }
         }
 
